@@ -13,11 +13,11 @@ RUN python3 -m pip install --user pynvim
 
 RUN wget --no-check-certificate --content-disposition https://github.com/neovim/neovim/releases/download/v0.4.3/nvim.appimage && chmod u+x nvim.appimage && ./nvim.appimage --appimage-extract 
 
-RUN echo 'alias nvim="./squashfs-root/usr/bin/nvim"' >> ~/.bashrc
+RUN echo 'alias nvim="/squashfs-root/usr/bin/nvim"' >> ~/.bashrc
 
-RUN mkdir -p ~/.config && mkdir -p ~/.config/nvim && git clone https://github.com/MenosGrandes/dots.git ~/dots && mv  ~/dots/vim/init.vim ~/.config/nvim/ && ./squashfs-root/usr/bin/nvim +PlugInstall +qall
-
-
+RUN mkdir -p ~/.config && mkdir -p ~/.config/nvim && git clone https://github.com/MenosGrandes/dots.git ~/dots && mv  ~/dots/vim/init.vim ~/.config/nvim/ && ./squashfs-root/usr/bin/nvim +PlugInstall +qall && mkdir /code
 
 
+
+CMD ["./squashfs-root/usr/bin/nvim"]  
 
