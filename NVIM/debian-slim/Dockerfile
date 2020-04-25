@@ -1,16 +1,16 @@
 FROM debian:stable-slim
 
 ENV PACKAGES="\
-			  git \
-			  curl \
-			  python3-dev \
-			  python3-pip \
-			  wget \
+	git \
+	curl \
+	python3-dev \
+	python3-pip \
+	wget \
 "
 
 ENV PYTHON_PACKAGES="\
-    numpy \
-    matplotlib \
+	numpy \
+	matplotlib \
 	neovim \
 	scipy\
 	pandas\
@@ -18,9 +18,9 @@ ENV PYTHON_PACKAGES="\
 	nose\
 	flake8 \
 	autopep8 \
-	jedi==0.16.0 \
+	jedi \
 	scipy \
-" 
+"
 
 RUN apt-get -y -qq update&& apt-get -y -qq install $PACKAGES \
 	&& curl -sL https://deb.nodesource.com/setup_13.x | bash - && apt-get install -y -qq nodejs && npm install -g neovim \
@@ -33,15 +33,17 @@ RUN apt-get -y -qq update&& apt-get -y -qq install $PACKAGES \
 	&& mkdir -p ~/.config/nvim \
 	&& git clone https://github.com/MenosGrandes/dots.git ~/dots \
 	&& mv  ~/dots/vim/init.vim ~/.config/nvim/ \
+	&& mv  ~/dots/vim/coc-settings.json ~/.config/nvim/ \
 	&& ./squashfs-root/usr/bin/nvim +PlugInstall +qall \
 	&& mkdir -p /root/.config/coc/extensions \
 	&& cd /root/.config/coc/extensions \
 	&& echo '{"dependencies":{}}'> package.json \
 	&& npm install coc-python --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod \
 	&& /squashfs-root/usr/bin/nvim +CocUpdateSync +qall \
-	&& mkdir /code
+	&& mkdir /code \
+        && rm -rf ~/dots
 
 
 
-#CMD ["./squashfs-root/usr/bin/nvim"]  
+#CMD ["./squashfs-root/usr/bin/nvim"]
 
