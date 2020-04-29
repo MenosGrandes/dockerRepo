@@ -3,7 +3,7 @@ ENV USER=root
 ENV PASSWORD=password1
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
-RUN apt-get update 
+RUN apt-get update
 
 RUN apt-get install -yq --no-install-recommends \
 pkg-config zip fakeroot git cmake build-essential nasm wget curl \
@@ -32,7 +32,7 @@ RUN wget -O libjpeg-turbo.tar.gz https://sourceforge.net/projects/libjpeg-turbo/
 && cd libjpeg-turbo-1.5.1 \
 && ./configure --enable-static=no --prefix=/usr/local \
 && make install \
-&& ldconfig 
+&& ldconfig
 
 RUN git clone https://github.com/pupil-labs/libuvc \
 && cd libuvc\
@@ -41,7 +41,7 @@ RUN git clone https://github.com/pupil-labs/libuvc \
 && cmake .. \
 && make \
 && make install
-#RUN echo 'SUBSYSTEM=="usb",  ENV{DEVTYPE}=="usb_device", GROUP="plugdev", MODE="0664"' > /etc/udev/rules.d/10-libuvc.rules 
+#RUN echo 'SUBSYSTEM=="usb",  ENV{DEVTYPE}=="usb_device", GROUP="plugdev", MODE="0664"' > /etc/udev/rules.d/10-libuvc.rules
 
 #RUN udevadm trigger
 
@@ -69,13 +69,12 @@ RUN python3 -m pip install --user msgpack==0.5.6
 
 
 RUN ldconfig
-RUN git clone https://github.com/pupil-labs/pupil.git
 
-RUN  apt-get -qq  update  < /dev/null > /dev/null 
-RUN  apt-get -qq  install -y --no-install-recommends tightvncserver ratpoison dosbox novnc websockify < /dev/null > /dev/null 
-RUN mkdir ~/.vnc/ 
-RUN echo $PASSWORD | vncpasswd -f > ~/.vnc/passwd 
-RUN chmod 0600 ~/.vnc/passwd 
-RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" 
+RUN  apt-get -qq  update  < /dev/null > /dev/null
+RUN  apt-get -qq  install -y --no-install-recommends tightvncserver  dbus-x11 xfonts-base xfce4 supervisor xfce4-session xfce4-terminal xterm novnc websockify < /dev/null > /dev/null
+RUN mkdir ~/.vnc/
+RUN echo $PASSWORD | vncpasswd -f > ~/.vnc/passwd
+RUN chmod 0600 ~/.vnc/passwd
+RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 EXPOSE 6081
-CMD vncserver && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 6081 localhost:5901 && tail -f /dev/null
+CMD vncserver && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 6081 localhost:5901 && tail -f /dev/null && startxfce4
