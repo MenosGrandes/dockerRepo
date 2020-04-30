@@ -8,11 +8,18 @@ RUN echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
+ENV APT_PACKAGES="\
+xfonts-base\
+ tightvncserver\
+ ratpoison\
+ dosbox\
+ novnc\
+ websockify\
+"
+
 RUN  apt-get -qq  update  < /dev/null > /dev/null \
- &&  apt-get -qq  install -y --no-install-recommends xfonts-base tightvncserver ratpoison dosbox novnc websockify < /dev/null > /dev/null \
- && mkdir ~/.vnc/ \
- && mkdir ~/.dosbox \
- && mkdir ~/dos/code \
+ &&  apt-get -qq  install -y --no-install-recommends $APT_PACKAGES < /dev/null > /dev/null \
+ && mkdir -p ~/.vnc/ ~/.dosbox ~/dos/code \
  && echo $PASSWORD | vncpasswd -f > ~/.vnc/passwd \
  && chmod 0600 ~/.vnc/passwd \
  && echo "set border 0" > ~/.ratpoisonrc  \
