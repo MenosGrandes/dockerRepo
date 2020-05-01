@@ -49,22 +49,22 @@ RUN git clone https://github.com/pupil-labs/libuvc \
 # Upgrade pip to latest version. This is necessary for some dependencies.
 RUN python3 -m pip install --upgrade pip
 
-RUN python3 -m pip install --user cysignals --upgrade
-RUN python3 -m pip install --user cython --upgrade
-RUN python3 -m pip install --user numexpr --upgrade
-RUN python3 -m pip install --user packaging --upgrade
-RUN python3 -m pip install --user psutil --upgrade
-RUN python3 -m pip install --user pyaudio --upgrade
-RUN python3 -m pip install --user pyopengl --upgrade
-RUN python3 -m pip install --user pyzmq --upgrade
-RUN python3 -m pip install --user scipy --upgrade
-RUN python3 -m pip install --user git+https://github.com/zeromq/pyre --upgrade
-RUN python3 -m pip install --user pupil-apriltags --upgrade
-RUN python3 -m pip install --user pupil-detectors --upgrade
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/PyAV --upgrade
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyuvc --upgrade
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyndsi --upgrade
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyglui --upgrade
+RUN python3 -m pip install --user cysignals
+RUN python3 -m pip install --user cython
+RUN python3 -m pip install --user numexpr
+RUN python3 -m pip install --user packaging
+RUN python3 -m pip install --user psutil
+RUN python3 -m pip install --user pyaudio
+RUN python3 -m pip install --user pyopengl
+RUN python3 -m pip install --user pyzmq
+RUN python3 -m pip install --user scipy
+RUN python3 -m pip install --user git+https://github.com/zeromq/pyre
+RUN python3 -m pip install --user pupil-apriltags
+RUN python3 -m pip install --user pupil-detectors
+RUN python3 -m pip install --user git+https://github.com/pupil-labs/PyAV
+RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyuvc
+RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyndsi
+RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyglui
 RUN python3 -m pip install --user msgpack==0.5.6
 
 
@@ -77,4 +77,5 @@ RUN echo $PASSWORD | vncpasswd -f > ~/.vnc/passwd
 RUN chmod 0600 ~/.vnc/passwd
 RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
 EXPOSE 6081
+RUN mkdir ~/code
 CMD vncserver && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 6081 localhost:5901 && tail -f /dev/null && startxfce4

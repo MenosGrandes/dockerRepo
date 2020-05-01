@@ -40,7 +40,6 @@ RUN apt-get -y -qq update&& apt-get -y -qq install $PACKAGES \
 	&& mkdir /code \
         && rm -rf ~/dots
 
+ENTRYPOINT ["nvim"]
 
-
-#CMD ["./squashfs-root/usr/bin/nvim"]
 
