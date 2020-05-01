@@ -1,0 +1,4 @@
+#!/bin/bash
+CONTAINER_NAME=$1
+DOCKERFILE_PATH=$2
+docker build --rm -t $CONTAINER_NAME $DOCKERFILE_PATH
