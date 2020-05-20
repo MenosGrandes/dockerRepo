@@ -1,4 +1,4 @@
-FROM alpine
+FROM arm32v7/alpine
 #forked from  jazzdd86/phpVirtualbox 
 
 RUN apk update && apk add --no-cache bash nginx php7-fpm php7-cli php7-common php7-json php7-soap php7-simplexml php7-session \
