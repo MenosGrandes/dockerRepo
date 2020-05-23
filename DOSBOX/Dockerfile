@@ -2,7 +2,7 @@ FROM debian:stable-slim
 ENV USER=root
 ENV PASSWORD=password1
 
-COPY AK /dos/AK
+COPY AK /dos
 #silent apt
 RUN echo 'Dpkg::Use-Pty "0";' > /etc/apt/apt.conf.d/00usepty
 ENV DEBIAN_FRONTEND noninteractive
@@ -29,7 +29,7 @@ RUN  apt-get -qq  update  < /dev/null > /dev/null \
  && sed -i 's/usescancodes=true/usescancodes=false/' ~/.dosbox/dosbox.conf \
  && sed -i 's/autolock=true/autolock=false/' ~/.dosbox/dosbox.conf \
  && echo  "MOUNT C: /dos">> ~/.dosbox/dosbox.conf \
- && bash -c 'echo -e 'path=c:/\AK/\borlandc/\bin' >> ~/.dosbox/dosbox.conf' \
+ && bash -c 'echo -e 'path=c:/\borlandc/\bin' >> ~/.dosbox/dosbox.conf' \
  && echo  "c:">> ~/.dosbox/dosbox.conf \
  && openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com" \
  && apt-get -qq autoclean \
