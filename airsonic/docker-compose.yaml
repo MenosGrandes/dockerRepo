@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  airsonic:
+    image: ghcr.io/linuxserver/airsonic
+    container_name: airsonic
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/Shared/configs/airsonicConfig:/config
+      - /mnt/Shared/muzyka:/music
+    ports:
+      - 4040:4040
+    restart: unless-stopped
