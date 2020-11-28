@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+
+  nextcloud:
+    container_name: nextcloud
+    restart: unless-stopped
+    image: ghcr.io/linuxserver/nextcloud
+    ports:
+      - 443:443
+    volumes:
+      - /mnt/nextcloud/config:/config
+      - /mnt/nextcloud/data:/data
+    depends_on:
+      - db
+
+  db:
+    container_name: maria-db
+    restart: unless-stopped
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ncdb
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: nextcloud
+    volumes:
+      - /mnt/mariadb/configs/mariaDB:/var/lib/mysql
