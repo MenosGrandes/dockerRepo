@@ -6,7 +6,7 @@ services:
     environment:
       - EULA=TRUE
     volumes:
-      - /mnt/Shared/configs/minecraft:/data
+      - /mnt/docker_configs/minecraft2/:/data
     ports:
         - 25565:25565
     restart: unless-stopped

@@ -8,7 +8,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/Shared/configs/airsonicConfig:/config
+      - /mnt/docker_configs/airsonic:/config
       - /mnt/Shared/muzyka:/music
     ports:
       - 4040:4040

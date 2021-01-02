@@ -9,8 +9,8 @@ services:
     ports:
       - 443:443
     volumes:
-      - /mnt/nextcloud/config:/config
-      - /mnt/nextcloud/data:/data
+      - /mnt/docker_configs/nextcloud:/config
+      - /mnt/docker_configs/nextcloud_data:/data
     depends_on:
       - db
 
@@ -24,4 +24,4 @@ services:
       MYSQL_USER: nextcloud
       MYSQL_PASSWORD: nextcloud
     volumes:
-      - /mnt/mariadb/configs/mariaDB:/var/lib/mysql
+      - /mnt/docker_configs/mariadb:/var/lib/mysql
