@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   wireguard:
-    image: ghcr.io/linuxserver/wireguard:latest
+    image: ghcr.io/linuxserver/wireguard
     container_name: wireguard
     cap_add:
       - NET_ADMIN
@@ -10,8 +10,9 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - PEERS=1 #optional
-      - ALLOWEDIPS=0.0.0.0/0
+      - PEERS=1
+      - SERVERPORT=51820
+        #- SERVERURL= PROVIDE EXTERNAL IP
     volumes:
       - /mnt/docker_configs/wireguard:/config
       - /lib/modules:/lib/modules
