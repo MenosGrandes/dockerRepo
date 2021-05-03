@@ -1,9 +1,10 @@
-FROM ubuntu:bionic
+FROM nvidia/cudagl:11.2.2-devel-ubuntu18.04
 ENV USER=root
 ENV PASSWORD=password1
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 RUN apt-get update
+
 
 RUN apt-get install -yq --no-install-recommends \
 pkg-config zip fakeroot git cmake build-essential nasm wget curl \
@@ -42,31 +43,13 @@ RUN git clone https://github.com/pupil-labs/libuvc \
 && make \
 && make install
 #RUN echo 'SUBSYSTEM=="usb",  ENV{DEVTYPE}=="usb_device", GROUP="plugdev", MODE="0664"' > /etc/udev/rules.d/10-libuvc.rules
-
 #RUN udevadm trigger
 
 
 # Upgrade pip to latest version. This is necessary for some dependencies.
-RUN python3 -m pip install --upgrade pip
-
-RUN python3 -m pip install --user cysignals
-RUN python3 -m pip install --user cython
-RUN python3 -m pip install --user numexpr
-RUN python3 -m pip install --user packaging
-RUN python3 -m pip install --user psutil
-RUN python3 -m pip install --user pyaudio
-RUN python3 -m pip install --user pyopengl
-RUN python3 -m pip install --user pyzmq
-RUN python3 -m pip install --user scipy
-RUN python3 -m pip install --user git+https://github.com/zeromq/pyre
-RUN python3 -m pip install --user pupil-apriltags
-RUN python3 -m pip install --user pupil-detectors
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/PyAV
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyuvc
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyndsi
-RUN python3 -m pip install --user git+https://github.com/pupil-labs/pyglui
-RUN python3 -m pip install --user msgpack==0.5.6
-
+RUN pip3 install --upgrade pip setuptools wheel
+RUN git clone https://github.com/pupil-labs/pupil.git pupilLabs
+RUN pip3 install -r pupilLabs/requirements.txt
 
 RUN ldconfig
 
