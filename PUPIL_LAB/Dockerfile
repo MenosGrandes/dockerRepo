@@ -1,6 +1,4 @@
 FROM nvidia/cudagl:11.2.2-devel-ubuntu18.04
-ENV USER=root
-ENV PASSWORD=password1
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 RUN apt-get update
@@ -42,23 +40,7 @@ RUN git clone https://github.com/pupil-labs/libuvc \
 && cmake .. \
 && make \
 && make install
-#RUN echo 'SUBSYSTEM=="usb",  ENV{DEVTYPE}=="usb_device", GROUP="plugdev", MODE="0664"' > /etc/udev/rules.d/10-libuvc.rules
-#RUN udevadm trigger
 
-
-# Upgrade pip to latest version. This is necessary for some dependencies.
-RUN pip3 install --upgrade pip setuptools wheel
-RUN git clone https://github.com/pupil-labs/pupil.git pupilLabs
-RUN pip3 install -r pupilLabs/requirements.txt
-
-RUN ldconfig
-
-RUN  apt-get -qq  update  < /dev/null > /dev/null
-RUN  apt-get -qq  install -y --no-install-recommends tightvncserver  dbus-x11 xfonts-base xfce4 supervisor xfce4-session xfce4-terminal xterm novnc websockify < /dev/null > /dev/null
-RUN mkdir ~/.vnc/
-RUN echo $PASSWORD | vncpasswd -f > ~/.vnc/passwd
-RUN chmod 0600 ~/.vnc/passwd
-RUN openssl req -x509 -nodes -newkey rsa:2048 -keyout ~/novnc.pem -out ~/novnc.pem -days 3650 -subj "/C=US/ST=NY/L=NY/O=NY/OU=NY/CN=NY emailAddress=email@example.com"
-EXPOSE 6081
-RUN mkdir ~/code
-CMD vncserver && websockify -D --web=/usr/share/novnc/ --cert=~/novnc.pem 6081 localhost:5901 && tail -f /dev/null && startxfce4
+RUN mkdir -p /root/code
+RUN echo "Don't forget to download the code and install deps"
+COPY  installInDocker.bash /root
