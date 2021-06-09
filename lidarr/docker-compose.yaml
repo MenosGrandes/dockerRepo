@@ -1,16 +1,17 @@
+---
 version: "2.1"
 services:
-  airsonic:
-    image: ghcr.io/linuxserver/airsonic
-    container_name: airsonic
+  lidarr:
+    image: ghcr.io/linuxserver/lidarr
+    container_name: lidarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - JAVA_OPTS="-Xmx256m -Xms256m"
     volumes:
-      - /mnt/docker_configs/airsonic:/config
+      - /mnt/docker_configs/lidarr:/config
       - /mnt/Shared/multimedia/muzyka:/music
+      - /mnt/Shared/downloads:/downloads
     ports:
-      - 4040:4040
+      - 8686:8686
     restart: unless-stopped
