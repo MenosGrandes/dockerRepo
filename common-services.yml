@@ -12,8 +12,8 @@ services:
       - ${PORT}:${PORT}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.apache.rule=Host(`${NAME}.docker`)
-      - traefik.http.routers.apache.entrypoints=web
+      - traefik.http.routers.${NAME}.rule=Host(`${NAME}.docker`)
+      - traefik.http.routers.${NAME}.entrypoints=web
       - traefik.port=${PORT}
     networks:
       - proxy

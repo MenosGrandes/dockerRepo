@@ -16,8 +16,8 @@ services:
       - 8686:8686
     labels:
       - traefik.enable=true
-      - traefik.http.routers.apache.rule=Host(`lidarr.docker`)
-      - traefik.http.routers.apache.entrypoints=web
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.docker`)
+      - traefik.http.routers.lidarr.entrypoints=web
       - traefik.port=8686
     networks:
       - proxy
