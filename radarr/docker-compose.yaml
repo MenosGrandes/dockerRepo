@@ -11,6 +11,7 @@ services:
     volumes:
       - /mnt/docker_configs:/config
       - /mnt/Shared/downloads:/downloads
+      - /mnt/Shared/multimedia/movies:/movies
     ports:
       - 7878:7878
     restart: unless-stopped

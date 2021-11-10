@@ -14,4 +14,15 @@ services:
       - /mnt/Shared/downloads:/downloads
     ports:
       - 8686:8686
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.apache.rule=Host(`lidarr.docker`)
+      - traefik.http.routers.apache.entrypoints=web
+      - traefik.port=8686
+    networks:
+      - proxy
     restart: unless-stopped
+
+networks:
+    proxy:
+        external: true

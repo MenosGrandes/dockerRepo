@@ -7,7 +7,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
-      - JAVA_OPTS="-Xmx256m -Xms256m"
     volumes:
       - /mnt/docker_configs/airsonic:/config
       - /mnt/Shared/multimedia/muzyka:/music

@@ -13,7 +13,7 @@ services:
     volumes:
       - /mnt/docker_configs/transmission:/config
       - /mnt/Shared/downloads:/downloads
-      - /mnt/Shared/watch:/watch
+      - /mnt/docker_configs/transmission/watch:/watch
     ports:
       - 9091:9091
       - 51413:51413

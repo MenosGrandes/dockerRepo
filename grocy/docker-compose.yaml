@@ -12,3 +12,9 @@ services:
         ports:
             - 9283:80
         restart: unless-stopped
+        networks:
+            - proxy_net
+networks:
+        proxy_net:
+           name: mg_network
+

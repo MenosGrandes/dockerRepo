@@ -3,7 +3,7 @@ version: "2.1"
 services:
   heimdall:
     image: ghcr.io/linuxserver/heimdall
-    container_name: heimdall
+    container_name: heimdall_2
     environment:
       - PUID=1000
       - PGID=1000
@@ -11,6 +11,11 @@ services:
     volumes:
       - /mnt/docker_configs/heimdall:/config
     ports:
-      - 80:80
-      - 443:443
+      - 74:80
+      - 234:443
     restart: unless-stopped
+    networks:
+      - proxy_net
+networks:
+        proxy_net:
+           name: mg_network

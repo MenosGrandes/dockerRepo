@@ -11,6 +11,6 @@ services:
       - PGID=1000
       - VERSION=docker
     volumes:
-      - /mnt/Shared/plex_collection:/config
+      - /mnt/docker_configs/plex1:/config
       - /mnt/Shared/multimedia:/movies
     restart: unless-stopped
