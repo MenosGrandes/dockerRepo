@@ -1,0 +1,20 @@
+---
+version: "2.1"
+services:
+  common_service:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/docker_configs:/config
+    ports:
+      - ${PORT}:${PORT}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.apache.rule=Host(`${NAME}.docker`)
+      - traefik.http.routers.apache.entrypoints=web
+      - traefik.port=${PORT}
+    networks:
+      - proxy
+    restart: unless-stopped

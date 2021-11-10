@@ -2,16 +2,14 @@
 version: "2.1"
 services:
   radarr:
+    extends:
+      file: ../common-services.yml
+      service: common_service
     image: ghcr.io/linuxserver/radarr
     container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
     volumes:
-      - /mnt/docker_configs:/config
       - /mnt/Shared/downloads:/downloads
       - /mnt/Shared/multimedia/movies:/movies
-    ports:
-      - 7878:7878
-    restart: unless-stopped
+networks:
+    proxy:
+        external: true
