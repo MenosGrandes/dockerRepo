@@ -1,13 +1,13 @@
 ---
-version: "2.1"
+version: "3.4"
 services:
-  common_service:
+  app:
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/docker_configs:/config
+      - /mnt/docker_configs/${NAME}:/config
     ports:
       - ${PORT}:${PORT}
     labels:
@@ -18,3 +18,7 @@ services:
     networks:
       - proxy
     restart: unless-stopped
+
+networks:
+    proxy:
+        external: true

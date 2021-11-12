@@ -1,21 +1,37 @@
-version: "2.1"
+networks:
+  proxy:
+    external: true
+    name: proxy
 services:
-  transmission:
-    image: ghcr.io/linuxserver/transmission
+  app:
     container_name: transmission
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - TRANSMISSION_WEB_HOME=/transmission-web-control/
-      - USER=mg
-      - PASS=mg
-    volumes:
-      - /mnt/docker_configs/transmission:/config
-      - /mnt/Shared/downloads:/downloads
-      - /mnt/docker_configs/transmission/watch:/watch
+      PASS: mg
+      PGID: '1000'
+      PUID: '1000'
+      TRANSMISSION_WEB_HOME: /transmission-web-control/
+      TZ: Europe/London
+      USER: mg
+    image: ghcr.io/linuxserver/transmission
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.transmission.entrypoints: web
+      traefik.http.routers.transmission.rule: Host(`transmission.docker`)
+      traefik.port: '9091'
+    networks:
+      proxy: {}
     ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+    - published: 9091
+      target: 9091
+    - published: 51413
+      target: 51413
+    - protocol: udp
+      published: 51413
+      target: 51413
     restart: unless-stopped
+    volumes:
+    - /mnt/docker_configs/transmission:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+    - /mnt/docker_configs/transmission/watch:/watch:rw
+version: '3.4'
+

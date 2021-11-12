@@ -1,15 +1,29 @@
----
-version: "2.1"
-services:
-  radarr:
-    extends:
-      file: ../common-services.yml
-      service: common_service
-    image: ghcr.io/linuxserver/radarr
-    container_name: radarr
-    volumes:
-      - /mnt/Shared/downloads:/downloads
-      - /mnt/Shared/multimedia/movies:/movies
 networks:
-    proxy:
-        external: true
+  proxy:
+    external: true
+    name: proxy
+services:
+  app:
+    container_name: radarr
+    environment:
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Europe/London
+    image: ghcr.io/linuxserver/radarr
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.radarr.entrypoints: web
+      traefik.http.routers.radarr.rule: Host(`radarr.docker`)
+      traefik.port: '7878'
+    networks:
+      proxy: {}
+    ports:
+    - published: 7878
+      target: 7878
+    restart: unless-stopped
+    volumes:
+    - /mnt/docker_configs/radarr:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+    - /mnt/Shared/multimedia/movies:/movies:rw
+version: '3.4'
+

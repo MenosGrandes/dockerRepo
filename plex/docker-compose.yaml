@@ -3,14 +3,13 @@
 version: "2.1"
 services:
   plex:
+    extends:
+      file: ../common-services.yml
+      service: common_service
     image: ghcr.io/linuxserver/plex
     container_name: plex
-    network_mode: host
+    # network_mode: host
     environment:
-      - PUID=1000
-      - PGID=1000
       - VERSION=docker
     volumes:
-      - /mnt/docker_configs/plex1:/config
       - /mnt/Shared/multimedia:/movies
-    restart: unless-stopped

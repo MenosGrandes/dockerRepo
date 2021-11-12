@@ -1,0 +1,8 @@
+---
+version: "2.1"
+services:
+  app:
+    image: ghcr.io/linuxserver/radarr
+    container_name: radarr
+    volumes:
+      - /mnt/Shared/multimedia/movies:/movies

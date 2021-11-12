@@ -1,0 +1,8 @@
+---
+version: "3.4"
+services:
+  app:
+    volumes:
+      - /mnt/Shared/downloads:/downloads
+
+
