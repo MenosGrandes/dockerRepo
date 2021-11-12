@@ -1,0 +1,7 @@
+version: "2.1"
+services:
+  app:
+    image: ghcr.io/linuxserver/airsonic
+    container_name: airsonic
+    volumes:
+      - /mnt/Shared/multimedia/muzyka:/music

@@ -1,15 +1,29 @@
-version: "2.1"
+networks:
+  proxy:
+    external: true
+    name: proxy
 services:
-  airsonic:
-    image: ghcr.io/linuxserver/airsonic
+  app:
     container_name: airsonic
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-    volumes:
-      - /mnt/docker_configs/airsonic:/config
-      - /mnt/Shared/multimedia/muzyka:/music
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Europe/London
+    image: ghcr.io/linuxserver/airsonic
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.airsonic.entrypoints: web
+      traefik.http.routers.airsonic.rule: Host(`airsonic.docker`)
+      traefik.port: '4040'
+    networks:
+      proxy: {}
     ports:
-      - 4040:4040
+    - published: 4040
+      target: 4040
     restart: unless-stopped
+    volumes:
+    - /mnt/docker_configs/airsonic:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+    - /mnt/Shared/multimedia/muzyka:/music:rw
+version: '3.4'
+
