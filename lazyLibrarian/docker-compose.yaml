@@ -13,6 +13,8 @@ services:
       - /mnt/docker_configs/lazyLibrarian_config:/config
       - /mnt/Shared/downloads:/downloads
       - /mnt/Shared/books:/books
+      - /mnt/Shared/books_import:/import
+      - /usr/bin/calibredb:/calibredb
     ports:
       - 5299:5299
     restart: unless-stopped

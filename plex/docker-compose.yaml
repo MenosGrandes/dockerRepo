@@ -1,15 +1,30 @@
-
----
-version: "2.1"
+networks:
+  proxy:
+    external: true
+    name: proxy
 services:
-  plex:
-    extends:
-      file: ../common-services.yml
-      service: common_service
-    image: ghcr.io/linuxserver/plex
+  app:
     container_name: plex
-    # network_mode: host
     environment:
-      - VERSION=docker
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Europe/London
+      VERSION: docker
+    image: ghcr.io/linuxserver/plex
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.plex.entrypoints: web
+      traefik.http.routers.plex.rule: Host(`plex.docker`)
+      traefik.port: '32400'
+    networks:
+      proxy: {}
+    ports:
+    - published: 32400
+      target: 32400
+    restart: unless-stopped
     volumes:
-      - /mnt/Shared/multimedia:/movies
+    - /mnt/docker_configs/plex:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+    - /mnt/Shared/multimedia:/movies:rw
+version: '3.4'
+

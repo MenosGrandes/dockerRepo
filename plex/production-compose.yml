@@ -1,0 +1,10 @@
+---
+version: "2.1"
+services:
+  app:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    environment:
+      - VERSION=docker
+    volumes:
+      - /mnt/Shared/multimedia:/movies
