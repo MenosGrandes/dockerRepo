@@ -10,7 +10,7 @@ services:
       PUID: '1000'
       TZ: Europe/London
       VERSION: docker
-    image: ghcr.io/linuxserver/plex
+    image: lscr.io/linuxserver/plex:latest
     labels:
       traefik.enable: "true"
       traefik.http.routers.plex.entrypoints: web

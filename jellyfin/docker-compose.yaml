@@ -1,0 +1,30 @@
+networks:
+  proxy:
+    external: true
+    name: proxy
+services:
+  app:
+    container_name: jellyfin
+    environment:
+      PGID: '1000'
+      PUID: '1000'
+      TZ: Europe/London
+    image: lscr.io/linuxserver/jellyfin:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.jellyfin.entrypoints: web
+      traefik.http.routers.jellyfin.rule: Host(`jellyfin.docker`)
+      traefik.port: '8096'
+    networks:
+      proxy: {}
+    ports:
+    - published: 8096
+      target: 8096
+    restart: unless-stopped
+    volumes:
+    - /mnt/docker_configs/jellyfin:/config:rw
+    - /mnt/Shared/multimedia/movies:/data/movies:rw
+    - /mnt/Shared/multimedia/tv:/data/tvshows:rw
+    - /mnt/Shared/downloads:/downloads:rw
+version: '3.4'
+

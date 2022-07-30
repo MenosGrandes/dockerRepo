@@ -1,0 +1,9 @@
+---
+version: "2.1"
+services:
+  app:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    volumes:
+      - /mnt/Shared/multimedia/movies:/data/movies
+      - /mnt/Shared/multimedia/tv:/data/tvshows
