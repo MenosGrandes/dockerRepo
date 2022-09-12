@@ -1,14 +1,11 @@
-networks:
-  proxy:
-    external: true
-    name: proxy
+name: transmission
 services:
   app:
     container_name: transmission
     environment:
       PASS: mg
-      PGID: '1000'
-      PUID: '1000'
+      PGID: "1000"
+      PUID: "1000"
       TRANSMISSION_WEB_HOME: /transmission-web-control/
       TZ: Europe/London
       USER: mg
@@ -17,21 +14,40 @@ services:
       traefik.enable: "true"
       traefik.http.routers.transmission.entrypoints: web
       traefik.http.routers.transmission.rule: Host(`transmission.docker`)
-      traefik.port: '9091'
+      traefik.port: "9091"
     networks:
-      proxy: {}
+      proxy: null
     ports:
-    - published: 9091
+    - mode: ingress
       target: 9091
-    - published: 51413
+      published: "9091"
+      protocol: tcp
+    - mode: ingress
       target: 51413
-    - protocol: udp
-      published: 51413
+      published: "51413"
+      protocol: tcp
+    - mode: ingress
       target: 51413
+      published: "51413"
+      protocol: udp
     restart: unless-stopped
     volumes:
-    - /mnt/docker_configs/transmission:/config:rw
-    - /mnt/Shared/downloads:/downloads:rw
-    - /mnt/docker_configs/transmission/watch:/watch:rw
-version: '3.4'
-
+    - type: bind
+      source: /mnt/docker_configs/transmission
+      target: /config
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /mnt/Shared/downloads
+      target: /downloads
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /mnt/docker_configs/transmission/watch
+      target: /watch
+      bind:
+        create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true

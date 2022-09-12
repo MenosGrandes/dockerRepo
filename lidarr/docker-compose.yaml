@@ -1,29 +1,42 @@
-networks:
-  proxy:
-    external: true
-    name: proxy
+name: lidarr
 services:
   app:
-    container_name: radarr
+    container_name: lidarr
     environment:
-      PGID: '1000'
-      PUID: '1000'
+      PGID: "1000"
+      PUID: "1000"
       TZ: Europe/London
-    image: ghcr.io/linuxserver/radarr
+    image: ghcr.io/linuxserver/lidarr
     labels:
       traefik.enable: "true"
-      traefik.http.routers.radarr.entrypoints: web
-      traefik.http.routers.radarr.rule: Host(`radarr.docker`)
-      traefik.port: '7878'
+      traefik.http.routers.lidarr.entrypoints: web
+      traefik.http.routers.lidarr.rule: Host(`lidarr.docker`)
+      traefik.port: "8686"
     networks:
-      proxy: {}
+      proxy: null
     ports:
-    - published: 7878
-      target: 7878
+    - mode: ingress
+      target: 8686
+      published: "8686"
+      protocol: tcp
     restart: unless-stopped
     volumes:
-    - /mnt/docker_configs/radarr:/config:rw
-    - /mnt/Shared/downloads:/downloads:rw
-    - /mnt/Shared/multimedia/movies:/movies:rw
-version: '3.4'
-
+    - type: bind
+      source: /mnt/docker_configs/lidarr
+      target: /config
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /mnt/Shared/downloads
+      target: /downloads
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /mnt/Shared/multimedia/music/
+      target: /music
+      bind:
+        create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true
