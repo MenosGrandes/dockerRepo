@@ -1,42 +1,29 @@
-name: sonarr
+networks:
+  proxy:
+    external: true
+    name: proxy
 services:
   app:
     container_name: sonarr
     environment:
-      PGID: "1000"
-      PUID: "1000"
+      PGID: '1000'
+      PUID: '1000'
       TZ: Europe/London
     image: ghcr.io/linuxserver/sonarr
     labels:
       traefik.enable: "true"
       traefik.http.routers.sonarr.entrypoints: web
       traefik.http.routers.sonarr.rule: Host(`sonarr.docker`)
-      traefik.port: "8989"
+      traefik.port: '8989'
     networks:
-      proxy: null
+      proxy: {}
     ports:
-    - mode: ingress
+    - published: 8989
       target: 8989
-      published: "8989"
-      protocol: tcp
     restart: unless-stopped
     volumes:
-    - type: bind
-      source: /mnt/docker_configs/sonarr
-      target: /config
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /mnt/Shared/downloads
-      target: /downloads
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /mnt/Shared/multimedia/tv
-      target: /tv
-      bind:
-        create_host_path: true
-networks:
-  proxy:
-    name: proxy
-    external: true
+    - /mnt/docker_configs/sonarr:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+    - /mnt/Shared/multimedia/tv:/tv:rw
+version: '3.4'
+

@@ -1,42 +1,29 @@
-name: readarr
+networks:
+  proxy:
+    external: true
+    name: proxy
 services:
   app:
     container_name: readarr
     environment:
-      PGID: "1000"
-      PUID: "1000"
+      PGID: '1000'
+      PUID: '1000'
       TZ: Europe/London
     image: lscr.io/linuxserver/readarr:develop
     labels:
       traefik.enable: "true"
       traefik.http.routers.readarr.entrypoints: web
       traefik.http.routers.readarr.rule: Host(`readarr.docker`)
-      traefik.port: "8787"
+      traefik.port: '8787'
     networks:
-      proxy: null
+      proxy: {}
     ports:
-    - mode: ingress
+    - published: 8787
       target: 8787
-      published: "8787"
-      protocol: tcp
     restart: unless-stopped
     volumes:
-    - type: bind
-      source: /mnt/Shared/multimedia/books
-      target: /books
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /mnt/docker_configs/readarr
-      target: /config
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /mnt/Shared/downloads
-      target: /downloads
-      bind:
-        create_host_path: true
-networks:
-  proxy:
-    name: proxy
-    external: true
+    - /mnt/Shared/multimedia/books:/books:rw
+    - /mnt/docker_configs/readarr:/config:rw
+    - /mnt/Shared/downloads:/downloads:rw
+version: '3.4'
+

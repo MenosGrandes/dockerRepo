@@ -1,0 +1,10 @@
+version: "3"
+services:
+  app:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - WEBUI_PORT=8080
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
