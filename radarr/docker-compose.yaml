@@ -1,29 +1,42 @@
-networks:
-  proxy:
-    external: true
-    name: proxy
+name: common
 services:
   app:
     container_name: radarr
     environment:
-      PGID: '1000'
-      PUID: '1000'
+      PGID: "1000"
+      PUID: "1000"
       TZ: Europe/London
     image: ghcr.io/linuxserver/radarr
     labels:
       traefik.enable: "true"
       traefik.http.routers.radarr.entrypoints: web
       traefik.http.routers.radarr.rule: Host(`radarr.docker`)
-      traefik.port: '7878'
+      traefik.port: "7878"
     networks:
-      proxy: {}
+      proxy: null
     ports:
-    - published: 7878
-      target: 7878
+      - mode: ingress
+        target: 7878
+        published: "7878"
+        protocol: tcp
     restart: unless-stopped
     volumes:
-    - /mnt/docker_configs/radarr:/config:rw
-    - /mnt/Shared/downloads:/downloads:rw
-    - /mnt/Shared/multimedia/movies:/movies:rw
-version: '3.4'
-
+      - type: bind
+        source: /mnt/docker_configs/radarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/movies
+        target: /movies
+        bind:
+          create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true

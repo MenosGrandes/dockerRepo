@@ -1,0 +1,42 @@
+name: prometheus
+services:
+  app:
+    container_name: prometheus
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: prom/prometheus
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.prometheus.entrypoints: web
+      traefik.http.routers.prometheus.rule: Host(`prometheus.docker`)
+      traefik.port: "9090"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 9090
+        published: "9090"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /root/dockerRepo/prometheus/prometheus.yml
+        target: /etc/prometheus/prometheus.yml
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/docker_configs/prometheus
+        target: /prometheus
+        bind:
+          create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true

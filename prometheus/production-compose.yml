@@ -1,0 +1,9 @@
+version: "3"
+services:
+  app:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /mnt/docker_configs/${NAME}:/prometheus # configurations
+      #- /root/prometheus.yml:/etc/prometheus/prometheus.yml

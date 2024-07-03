@@ -1,28 +1,37 @@
-networks:
-  proxy:
-    external: true
-    name: proxy
+name: prowlarr
 services:
   app:
     container_name: prowlarr
     environment:
-      PGID: '1000'
-      PUID: '1000'
+      PGID: "1000"
+      PUID: "1000"
       TZ: Europe/London
     image: lscr.io/linuxserver/prowlarr:develop
     labels:
       traefik.enable: "true"
       traefik.http.routers.prowlarr.entrypoints: web
       traefik.http.routers.prowlarr.rule: Host(`prowlarr.docker`)
-      traefik.port: '9696'
+      traefik.port: "9696"
     networks:
-      proxy: {}
+      proxy: null
     ports:
-    - published: 9696
-      target: 9696
+      - mode: ingress
+        target: 9696
+        published: "9696"
+        protocol: tcp
     restart: unless-stopped
     volumes:
-    - /mnt/docker_configs/prowlarr:/config:rw
-    - /mnt/Shared/downloads:/downloads:rw
-version: '3.4'
-
+      - type: bind
+        source: /mnt/docker_configs/prowlarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true
