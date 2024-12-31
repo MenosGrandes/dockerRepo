@@ -1,0 +1,6 @@
+services:
+  app:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    volumes:
+      - /mnt/Shared/multimedia/books:/books #optional

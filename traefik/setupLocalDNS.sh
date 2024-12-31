@@ -1,2 +1,2 @@
 #/bin/bash
-docker ps --format "127.0.0.1 {{.Names}}.docker" >> /etc/hosts
+docker ps --format "192.168.0.102 {{.Names}}.docker" >> /etc/hosts

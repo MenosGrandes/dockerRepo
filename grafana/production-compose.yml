@@ -1,0 +1,6 @@
+services:
+  app:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    volumes:
+      - /mnt/docker_configs/grafana:/var/lib/grafana

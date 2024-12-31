@@ -1,28 +1,28 @@
-name: prometheus
+name: navidrome
 services:
   app:
-    container_name: prometheus
+    container_name: navidrome
     environment:
       PGID: "1000"
       PUID: "1000"
       TZ: Europe/London
-    image: prom/prometheus
+    image: deluan/navidrome:latest
     labels:
       traefik.enable: "true"
-      traefik.http.routers.prometheus.entrypoints: web
-      traefik.http.routers.prometheus.rule: Host(`prometheus.docker`)
-      traefik.port: "9090"
+      traefik.http.routers.navidrome.entrypoints: web
+      traefik.http.routers.navidrome.rule: Host(`navidrome.docker`)
+      traefik.port: "4533"
     networks:
       proxy: null
     ports:
       - mode: ingress
-        target: 9090
-        published: "9090"
+        target: 4533
+        published: "4533"
         protocol: tcp
     restart: unless-stopped
     volumes:
       - type: bind
-        source: /mnt/docker_configs/prometheus
+        source: /mnt/docker_configs/navidrome
         target: /config
         bind:
           create_host_path: true
@@ -32,13 +32,9 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: /root/dockerRepo/prometheus/prometheus.yml
-        target: /etc/prometheus/prometheus.yml
-        bind:
-          create_host_path: true
-      - type: bind
-        source: /mnt/docker_configs/prometheus
-        target: /prometheus
+        source: /mnt/Shared/multimedia/music
+        target: /music
+        read_only: true
         bind:
           create_host_path: true
 networks:

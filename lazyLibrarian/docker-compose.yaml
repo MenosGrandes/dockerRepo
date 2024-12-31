@@ -1,28 +1,28 @@
-name: prometheus
+name: lazy_librarian
 services:
   app:
-    container_name: prometheus
+    container_name: lazylibrarian
     environment:
       PGID: "1000"
       PUID: "1000"
       TZ: Europe/London
-    image: prom/prometheus
+    image: lscr.io/linuxserver/lazylibrarian:latest
     labels:
       traefik.enable: "true"
-      traefik.http.routers.prometheus.entrypoints: web
-      traefik.http.routers.prometheus.rule: Host(`prometheus.docker`)
-      traefik.port: "9090"
+      traefik.http.routers.lazy_librarian.entrypoints: web
+      traefik.http.routers.lazy_librarian.rule: Host(`lazy_librarian.docker`)
+      traefik.port: "5299"
     networks:
       proxy: null
     ports:
       - mode: ingress
-        target: 9090
-        published: "9090"
+        target: 5299
+        published: "5299"
         protocol: tcp
     restart: unless-stopped
     volumes:
       - type: bind
-        source: /mnt/docker_configs/prometheus
+        source: /mnt/docker_configs/lazy_librarian
         target: /config
         bind:
           create_host_path: true
@@ -32,13 +32,8 @@ services:
         bind:
           create_host_path: true
       - type: bind
-        source: /root/dockerRepo/prometheus/prometheus.yml
-        target: /etc/prometheus/prometheus.yml
-        bind:
-          create_host_path: true
-      - type: bind
-        source: /mnt/docker_configs/prometheus
-        target: /prometheus
+        source: /mnt/Shared/multimedia/books
+        target: /books
         bind:
           create_host_path: true
 networks:

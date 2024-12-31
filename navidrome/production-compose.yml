@@ -1,0 +1,6 @@
+services:
+  app:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    volumes:
+      - /mnt/Shared/multimedia/music:/music:ro
