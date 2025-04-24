@@ -1,6 +1,6 @@
 name: sonarr
 services:
-  app:
+  sonarr:
     container_name: sonarr
     environment:
       PGID: "1000"

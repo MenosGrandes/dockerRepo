@@ -1,6 +1,6 @@
 name: navidrome
 services:
-  app:
+  navidrome:
     container_name: navidrome
     environment:
       PGID: "1000"

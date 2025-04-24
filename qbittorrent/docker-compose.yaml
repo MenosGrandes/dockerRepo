@@ -1,6 +1,6 @@
 name: qbittorrent
 services:
-  app:
+  qbittorrent:
     container_name: qbittorrent
     environment:
       PGID: "1000"

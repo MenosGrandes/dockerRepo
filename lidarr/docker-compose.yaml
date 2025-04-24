@@ -1,6 +1,6 @@
 name: lidarr
 services:
-  app:
+  lidarr:
     container_name: lidarr
     environment:
       PGID: "1000"

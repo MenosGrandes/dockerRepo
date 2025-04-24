@@ -1,6 +1,6 @@
 name: readarr
 services:
-  app:
+  readarr:
     container_name: readarr
     environment:
       PGID: "1000"

@@ -1,6 +1,6 @@
 name: lazy_librarian
 services:
-  app:
+  lazy_librarian:
     container_name: lazylibrarian
     environment:
       PGID: "1000"

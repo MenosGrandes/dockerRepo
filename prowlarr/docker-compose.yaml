@@ -1,6 +1,6 @@
 name: prowlarr
 services:
-  app:
+  prowlarr:
     container_name: prowlarr
     environment:
       PGID: "1000"

@@ -1,6 +1,6 @@
 name: common
 services:
-  app:
+  radarr:
     container_name: radarr
     environment:
       PGID: "1000"

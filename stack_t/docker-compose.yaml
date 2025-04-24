@@ -1,0 +1,294 @@
+name: prowlarr
+services:
+  lazy_librarian:
+    container_name: lazylibrarian
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.lazy_librarian.entrypoints: web
+      traefik.http.routers.lazy_librarian.rule: Host(`lazy_librarian.docker`)
+      traefik.port: "5299"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 5299
+        published: "5299"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/lazy_librarian
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/books
+        target: /books
+        bind:
+          create_host_path: true
+  lidarr:
+    container_name: lidarr
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: ghcr.io/linuxserver/lidarr
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.lidarr.entrypoints: web
+      traefik.http.routers.lidarr.rule: Host(`lidarr.docker`)
+      traefik.port: "8686"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 8686
+        published: "8686"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/lidarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/music/
+        target: /music
+        bind:
+          create_host_path: true
+  navidrome:
+    container_name: navidrome
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: deluan/navidrome:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.navidrome.entrypoints: web
+      traefik.http.routers.navidrome.rule: Host(`navidrome.docker`)
+      traefik.port: "4533"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 4533
+        published: "4533"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/navidrome
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/music
+        target: /music
+        read_only: true
+        bind:
+          create_host_path: true
+  prowlarr:
+    container_name: prowlarr
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: lscr.io/linuxserver/prowlarr:develop
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.prowlarr.entrypoints: web
+      traefik.http.routers.prowlarr.rule: Host(`prowlarr.docker`)
+      traefik.port: "9696"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 9696
+        published: "9696"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/prowlarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+  qbittorrent:
+    container_name: qbittorrent
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+      WEBUI_PORT: "8080"
+    image: lscr.io/linuxserver/qbittorrent:latest
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.qbittorrent.entrypoints: web
+      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.docker`)
+      traefik.port: "8080"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+      - mode: ingress
+        target: 6881
+        published: "6881"
+        protocol: tcp
+      - mode: ingress
+        target: 6881
+        published: "6881"
+        protocol: udp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/qbittorrent
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+  radarr:
+    container_name: radarr
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: ghcr.io/linuxserver/radarr
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.radarr.entrypoints: web
+      traefik.http.routers.radarr.rule: Host(`radarr.docker`)
+      traefik.port: "7878"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 7878
+        published: "7878"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/radarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/movies
+        target: /movies
+        bind:
+          create_host_path: true
+  readarr:
+    container_name: readarr
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: lscr.io/linuxserver/readarr:develop
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.readarr.entrypoints: web
+      traefik.http.routers.readarr.rule: Host(`readarr.docker`)
+      traefik.port: "8787"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 8787
+        published: "8787"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/readarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/books
+        target: /books
+        bind:
+          create_host_path: true
+  sonarr:
+    container_name: sonarr
+    environment:
+      PGID: "1000"
+      PUID: "1000"
+      TZ: Europe/London
+    image: ghcr.io/linuxserver/sonarr
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.sonarr.entrypoints: web
+      traefik.http.routers.sonarr.rule: Host(`sonarr.docker`)
+      traefik.port: "8989"
+    networks:
+      proxy: null
+    ports:
+      - mode: ingress
+        target: 8989
+        published: "8989"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /mnt/docker_configs/sonarr
+        target: /config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/downloads
+        target: /downloads
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /mnt/Shared/multimedia/tv
+        target: /tv
+        bind:
+          create_host_path: true
+networks:
+  proxy:
+    name: proxy
+    external: true
